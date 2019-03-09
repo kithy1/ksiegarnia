@@ -1,9 +1,8 @@
-import temp.B;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+
+import java.io.*;
+import java.nio.file.Path;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class BookFunctions {
@@ -106,14 +105,23 @@ public class BookFunctions {
         return average;
     }
 
-    public boolean isAnyBefor2003(List<Book> bookList) {
+    public boolean isAnyAfter2003(List<Book> bookList) {
         if (!bookList.isEmpty()) {
             return bookList.stream()
-                    .filter(book -> book.getYear() < 2003)
+                    .filter(book -> book.getYear() > 2003)
                     .findAny()
                     .isPresent();
         }
         return false;
+    }
+    public void listOfBooksPublishedAfter2003(List<Book> bookList){
+        List<Book> list = new ArrayList<>();
+        if (!bookList.isEmpty()){
+            list = bookList.stream()
+                    .filter(book -> book.getYear() > 2003)
+                    .collect(Collectors.toList());
+        }
+        list.forEach(System.out::println);
     }
 
     public List<Book> withCfirst(List<Book> bookList) {
@@ -167,14 +175,57 @@ public class BookFunctions {
         }
         return null;
     }
-    public void sortByLastYear(List<Book> bookList){
-        bookList.sort((o1, o2) -> o2.getYear()-o1.getYear());
+    public void showBooksSortedByLastYear(List<Book> bookList){
+        List<Book> sortedByLastYearBookList = new ArrayList<>();
+        sortedByLastYearBookList.addAll(bookList);
+        sortedByLastYearBookList.sort((o1, o2) -> o2.getYear()-o1.getYear());
+        sortedByLastYearBookList.forEach(System.out::println);
     }
-    public void sortByFirstYear(List<Book> bookList){
-        bookList.sort((o1, o2) -> o1.getYear()-o2.getYear());
+    public void showBooksSortedByFirstYear(List<Book> bookList){
+        List<Book> sortedByFirstYearBookList = new ArrayList<>();
+        sortedByFirstYearBookList.addAll(bookList);
+        sortedByFirstYearBookList.sort(Comparator.comparingInt(Book::getYear));
+        sortedByFirstYearBookList.forEach(System.out::println);
     }
 //public List<List<Book>> makeThreeList(List<Book> bookList){
 //        List<Book> temp = new ArrayList<>();
 //        temp = bookList.stream().map()
+    public <T> void saveListToCSV(List<T> list, String fileName) throws IOException {
+        if(fileName==null){
+            System.out.println("Nazwa pliku nie może być null'em");
+            return;
+        }
+        File file = new File(fileName);
+        if(!((fileName.substring(fileName.length()-4).equals(".csv")||(fileName.substring(fileName.length()-4).equals(".txt")))))
+        {
+            fileName = fileName+".csv";
+        }
+//        if(!fileName.substring(fileName.length()-4).equals(".")){
+//           char[] temp= fileName.toCharArray();
+//           for (int)
+//            fileName=fileName+".csv";
+//        }
+        if(!file.isFile()) {
+            try{
+                file.createNewFile();
+                System.out.println("Utworzono nowy plik o nazwie "+fileName);
+            }catch (IOException e){
+                System.out.println("błąd w trakcie tworzenia pliku");
+            }
+        }
+        int listSize = list.size();
+        try (Writer fileWriter = new FileWriter(fileName, false)){
+            for (int i = 0; i < listSize ; i++) {
+                fileWriter.write(String.valueOf(list.get(i)));
+                if (i != listSize - 1) {
+                    fileWriter.write("\n");
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Nie znaleziono pliku");
+        }
+    }
+
+
 }
 

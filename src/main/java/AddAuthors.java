@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+
 public class AddAuthors {
 
-    public List<Author> getNewListOfAutors() throws IOException {
+    public List<Author> getNewListOfAutors(String fileName) throws IOException {
         List<Author> authorList = new ArrayList<>();
         try {
-            Stream<String> lines = Files.lines(Paths.get("authors.csv"));
+            Stream<String> lines = Files.lines(Paths.get(fileName));
             List<String> dataList = new ArrayList<>();
             lines.forEach(x-> dataList.add(x));
             for (String s : dataList) {

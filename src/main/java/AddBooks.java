@@ -32,7 +32,7 @@ public class AddBooks {
 
                 for (int i = 0; i < authorsId.length; i++) {
                     int finalI = i;
-                    authors.add(new AddAuthors().getNewListOfAutors().stream()
+                    authors.add(new AddAuthors().getNewListOfAutors("authors.csv").stream()
                             .filter(author -> author.getId() == Integer.valueOf(authorsId[finalI]))
                             .findFirst().get());
 

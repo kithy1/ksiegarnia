@@ -29,9 +29,8 @@ public class Author {
         return id + ";" + firstName + " " + lastName + ";"+ age;
     }
 
-    public Author manualAuthorCreator() throws IOException {
-        AddAuthors addAuthors = new AddAuthors();
-        id = addAuthors.getNewListOfAutors().get(addAuthors.getNewListOfAutors().size() - 1).getId() + 1;
+    public Author manualAuthorCreator(int id) throws IOException {
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("Podaj imię:");
         firstName = scanner.nextLine();

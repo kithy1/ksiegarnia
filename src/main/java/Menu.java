@@ -1,6 +1,5 @@
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -14,17 +13,23 @@ public class Menu {
         System.out.println("4. Dodaj Autora");
         System.out.println("5. Dodaj Kategorię");
         System.out.println("6. Zapisz listę autorów do pliku csv");
-        System.out.println("7. Zakończ");
+        System.out.println("7. Zapisz listę kategorii do pliku csv");
+        System.out.println("8. Sortowanie książek po roku wydania rosnąco");
+        System.out.println("9. Sortowanie książek po roku wydania malejąco");
+        System.out.println("10. Lista książek wydanych po 2003 r.");
+        System.out.println("11. Zakończ");
         System.out.println("...................");
     }
 
     public void menu() throws IOException {
         AddBooks addBooks = new AddBooks();
+        List<Book> bookList = addBooks.getNewListOfBooks();
         AddAuthors addAuthors = new AddAuthors();
         AddCategories addCategories = new AddCategories();
         Author author = null;
-        AuthorList authorList = new AuthorList();
-        authorList.getAuthorList().addAll(addAuthors.getNewListOfAutors());
+        Lists lists = new Lists();
+        lists.getAuthorList().addAll(addAuthors.getNewListOfAutors("authors.csv"));
+        BookFunctions bookFunctions = new BookFunctions();
 
         int choice = 0;
 
@@ -41,41 +46,43 @@ public class Menu {
 
             switch (choice) {
                 case 1:
-                    addBooks.getNewListOfBooks().forEach(x -> System.out.println(x));
+                    bookList.forEach(System.out::println);
                     break;
                 case 2:
-                   // addAuthors.getNewListOfAutors().forEach(x -> System.out.println(x));
-                      authorList.getAuthorList().forEach(author1 -> System.out.println(author1));
+                    lists.getAuthorList().forEach(System.out::println);
                     break;
                 case 3:
-                    addCategories.getNewListOfCategories().forEach(x -> System.out.println(x));
+                    addCategories.getNewListOfCategories().forEach(System.out::println);
                     break;
                 case 4:
-                    author = new Author().manualAuthorCreator();
-                    authorList.getAuthorList().add(author);
+                    int id = lists.getAuthorList().size()+1;
+                    author = new Author().manualAuthorCreator(id);
+                    lists.getAuthorList().add(author);
                     break;
                 case 5:
                     break;
                 case 6:
-                    Writer fileWriter = new FileWriter("authors.csv",false);
-//                    fileWriter.write("\n");
-//                    fileWriter.write(String.valueOf(author));
-                    for (int i = 0; i <authorList.getAuthorList().size() ; i++) {
-                        fileWriter.write(String.valueOf(authorList.getAuthorList().get(i)));
-                        if(i!=authorList.getAuthorList().size()-1){
-                            fileWriter.write("\n");
-                        }
-                    }
-                    fileWriter.close();
+                    bookFunctions.saveListToCSV(lists.getAuthorList(),"authors.csv");
                     break;
                 case 7:
+                    break;
+                case 8:
+                    bookFunctions.showBooksSortedByFirstYear(bookList);
+                    break;
+                case 9:
+                    bookFunctions.showBooksSortedByLastYear(bookList);
+                    break;
+                case 10:
+                    bookFunctions.listOfBooksPublishedAfter2003(bookList);
+                    break;
+                case 11:
                     break;
                 default:
                     System.out.println("wpisano niewłaściwy znak");
                     showMenu();
 
             }
-        } while (choice != 7);
+        } while (choice != 11);
 
 
     }

@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Main {
 
@@ -8,7 +7,7 @@ public class Main {
        Menu menu = new Menu();
         menu.menu();
         AddAuthors addAuthors = new AddAuthors();
-        System.out.println(addAuthors.getNewListOfAutors());
+
 
 
 

@@ -1,9 +1,6 @@
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.rules.ExpectedException;
-import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,12 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class BookFunctionsTest {
     List<Book> bookList = new ArrayList<>();
 
     BookFunctions bookFunctions = new BookFunctions();
+    AddAuthors addAuthors = new AddAuthors();
 
     BookFunctionsTest() {
     }
@@ -218,8 +214,20 @@ class BookFunctionsTest {
         expected.add(bookList.get(1));
         expected.add(bookList.get(3));
         List<Book> temp = new ArrayList<>();
-        bookFunctions.sortByLastYear(bookList);
+        bookFunctions.showBooksSortedByLastYear(bookList);
         Assert.assertEquals(expected,bookList);
+
+    }
+    @Test
+    void saveListToCSV() throws IOException {
+        Author author1 = new Author(1,"Jan","Kowalski",45);
+        Author author2 = new Author(2,"Andrzej","Nowak",50);
+        List<Author> authors = new ArrayList<>();
+        authors.add(author1);
+        authors.add(author2);
+        bookFunctions.saveListToCSV(authors,"test.csv");
+        List<Author> resultlist = addAuthors.getNewListOfAutors("test.csv");
+        Assert.assertEquals(authors.get(0).toString(),resultlist.get(0).toString());
 
     }
 
