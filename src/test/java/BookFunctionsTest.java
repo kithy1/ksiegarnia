@@ -1,3 +1,7 @@
+import bookStore.addElements.AddAuthors;
+import bookStore.elements.Author;
+import bookStore.elements.Book;
+import bookStore.functions.BookFunctions;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,3 +1,9 @@
+package bookStore.lists;
+
+import bookStore.elements.Author;
+import bookStore.elements.Book;
+import bookStore.elements.Category;
+
 import java.util.ArrayList;
 import java.util.List;
 

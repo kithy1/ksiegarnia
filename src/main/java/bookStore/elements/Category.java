@@ -1,3 +1,7 @@
+package bookStore.elements;
+
+import java.util.Scanner;
+
 public class Category {
     private int id;
     private String name;
@@ -9,6 +13,25 @@ public class Category {
         this.priority = priority;
     }
 
+    public Category() {
+    }
+public Category manualCategoryCreator(int id){
+    Scanner scanner = new Scanner(System.in);
+    System.out.println("Podaj nazwę:");
+    name = scanner.nextLine();
+
+    System.out.println("Podaj priorytet:");
+    while (true){
+        try {
+            priority = Integer.valueOf(scanner.nextLine());
+            break;
+        } catch (NumberFormatException e) {
+            System.out.println("Podaj liczbę");
+        }
+
+    }
+        return new Category(id,name,priority);
+}
     public int getId() {
         return id;
     }
@@ -35,7 +58,7 @@ public class Category {
 
     @Override
     public String toString() {
-        return "Category{" +
+        return "bookStore.elements.Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", priority=" + priority +

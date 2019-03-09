@@ -1,3 +1,14 @@
+package bookStore;
+
+import bookStore.addElements.AddAuthors;
+import bookStore.addElements.AddBooks;
+import bookStore.addElements.AddCategories;
+import bookStore.elements.Author;
+import bookStore.elements.Book;
+import bookStore.elements.Category;
+import bookStore.functions.BookFunctions;
+import bookStore.lists.Lists;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
@@ -6,7 +17,7 @@ public class Menu {
 
 
     public void showMenu() {
-        System.out.println("Menu");
+        System.out.println("bookStore.Menu");
         System.out.println("1. Lista Książek");
         System.out.println("2. Lista Autorów");
         System.out.println("3. Lista Kategorii");
@@ -29,7 +40,9 @@ public class Menu {
         Author author = null;
         Lists lists = new Lists();
         lists.getAuthorList().addAll(addAuthors.getNewListOfAutors("authors.csv"));
+        lists.getCategoryList().addAll(addCategories.getNewListOfCategories("categories.csv"));
         BookFunctions bookFunctions = new BookFunctions();
+        Category category = null;
 
         int choice = 0;
 
@@ -52,7 +65,7 @@ public class Menu {
                     lists.getAuthorList().forEach(System.out::println);
                     break;
                 case 3:
-                    addCategories.getNewListOfCategories().forEach(System.out::println);
+                    lists.getCategoryList().forEach(System.out::println);
                     break;
                 case 4:
                     int id = lists.getAuthorList().size()+1;
@@ -60,11 +73,15 @@ public class Menu {
                     lists.getAuthorList().add(author);
                     break;
                 case 5:
+                    int id1 = lists.getCategoryList().size()+1;
+                    category = new Category().manualCategoryCreator(id1);
+                    lists.getCategoryList().add(category);
                     break;
                 case 6:
                     bookFunctions.saveListToCSV(lists.getAuthorList(),"authors.csv");
                     break;
                 case 7:
+                    bookFunctions.saveListToCSV(lists.getCategoryList(),"categories.csv");
                     break;
                 case 8:
                     bookFunctions.showBooksSortedByFirstYear(bookList);

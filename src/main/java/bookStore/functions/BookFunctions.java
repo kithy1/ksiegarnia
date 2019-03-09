@@ -1,7 +1,10 @@
+package bookStore.functions;
 
+import bookStore.addElements.AddCategories;
+import bookStore.elements.Book;
+import bookStore.elements.Category;
 
 import java.io.*;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -187,8 +190,8 @@ public class BookFunctions {
         sortedByFirstYearBookList.sort(Comparator.comparingInt(Book::getYear));
         sortedByFirstYearBookList.forEach(System.out::println);
     }
-//public List<List<Book>> makeThreeList(List<Book> bookList){
-//        List<Book> temp = new ArrayList<>();
+//public List<List<bookStore.elements.Book>> makeThreeList(List<bookStore.elements.Book> bookList){
+//        List<bookStore.elements.Book> temp = new ArrayList<>();
 //        temp = bookList.stream().map()
     public <T> void saveListToCSV(List<T> list, String fileName) throws IOException {
         if(fileName==null){
@@ -224,6 +227,24 @@ public class BookFunctions {
         } catch (FileNotFoundException e) {
             System.out.println("Nie znaleziono pliku");
         }
+    }
+    public void editCategoryName(List<Category> categoryList,int id){
+     Category category =  categoryList.stream()
+             .filter(category1 -> category1.getId()==id)
+             .findFirst().get();
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Wpisz nową nazwę kategorii");
+        String newCategoryName = scanner.nextLine();
+        category.setName(newCategoryName);
+        System.out.println(category.getName());
+
+    }
+
+    public static void main(String[] args) throws IOException {
+        BookFunctions bookFunctions = new BookFunctions();
+        AddCategories addCategories = new AddCategories();
+        bookFunctions.editCategoryName(addCategories.getNewListOfCategories(),1);
     }
 
 

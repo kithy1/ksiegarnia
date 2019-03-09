@@ -1,3 +1,5 @@
+package bookStore.elements;
+
 import java.util.List;
 
 public class Book {
@@ -48,7 +50,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "bookStore.elements.Book{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", isbd='" + isbd + '\'' +

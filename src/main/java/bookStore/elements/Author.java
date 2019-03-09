@@ -1,3 +1,5 @@
+package bookStore.elements;
+
 import lombok.Getter;
 import lombok.Setter;
 
