@@ -9,7 +9,10 @@ public class Book {
     private List<Author> author;
     private Category category;
 
-    public Book(int id,String title, String isbd, int year,char cover, List<Author> author,Category category)  {
+    public Book() {
+    }
+
+    public Book(int id, String title, String isbd, int year, char cover, List<Author> author, Category category)  {
         this.id = id;
         this.title = title;
         this.isbd = isbd;

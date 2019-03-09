@@ -1,5 +1,11 @@
 import lombok.Getter;
+import lombok.Setter;
 
+import java.io.IOException;
+import java.util.Scanner;
+
+@Getter
+@Setter
 public class Author {
     private int id;
     private String firstName;
@@ -16,46 +22,33 @@ public class Author {
     public Author() {
     }
 
+
+
     @Override
     public String toString() {
-        return "Author{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", age=" + age +
-                '}';
+        return id + ";" + firstName + " " + lastName + ";"+ age;
     }
 
-    public int getId() {
-        return id;
-    }
+    public Author manualAuthorCreator() throws IOException {
+        AddAuthors addAuthors = new AddAuthors();
+        id = addAuthors.getNewListOfAutors().get(addAuthors.getNewListOfAutors().size() - 1).getId() + 1;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Podaj imię:");
+        firstName = scanner.nextLine();
+        System.out.println("Podaj nazwisko:");
+        lastName = scanner.nextLine();
+        System.out.println("Podaj wiek:");
+        while (true){
+            try {
+                age = Integer.valueOf(scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Podaj liczbę lat");
+            }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+        }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
+        return new Author(id,firstName,lastName,age);
     }
 
 
