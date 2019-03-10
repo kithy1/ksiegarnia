@@ -58,10 +58,6 @@ public Category manualCategoryCreator(int id){
 
     @Override
     public String toString() {
-        return "bookStore.elements.Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", priority=" + priority +
-                '}';
+        return id +";"+ name +";"+ priority;
     }
 }
