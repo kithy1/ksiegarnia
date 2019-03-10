@@ -120,9 +120,10 @@ public class BookFunctions {
         }
         return false;
     }
-    public void listOfBooksPublishedAfter2003(List<Book> bookList){
+
+    public void listOfBooksPublishedAfter2003(List<Book> bookList) {
         List<Book> list = new ArrayList<>();
-        if (!bookList.isEmpty()){
+        if (!bookList.isEmpty()) {
             list = bookList.stream()
                     .filter(book -> book.getYear() > 2003)
                     .collect(Collectors.toList());
@@ -171,7 +172,8 @@ public class BookFunctions {
         }
         return null;
     }
-    public Map<String,Book> getMapOfBooks(List<Book> bookList){
+
+    public Map<String, Book> getMapOfBooks(List<Book> bookList) {
         if (!bookList.isEmpty()) {
             Map<String, Book> bookMap = new TreeMap<>();
             for (int i = 0; i < bookList.size(); i++) {
@@ -181,47 +183,44 @@ public class BookFunctions {
         }
         return null;
     }
-    public void showBooksSortedByLastYear(List<Book> bookList){
+
+    public void showBooksSortedByLastYear(List<Book> bookList) {
         List<Book> sortedByLastYearBookList = new ArrayList<>();
         sortedByLastYearBookList.addAll(bookList);
-        sortedByLastYearBookList.sort((o1, o2) -> o2.getYear()-o1.getYear());
+        sortedByLastYearBookList.sort((o1, o2) -> o2.getYear() - o1.getYear());
         sortedByLastYearBookList.forEach(System.out::println);
     }
-    public void showBooksSortedByFirstYear(List<Book> bookList){
+
+    public void showBooksSortedByFirstYear(List<Book> bookList) {
         List<Book> sortedByFirstYearBookList = new ArrayList<>();
         sortedByFirstYearBookList.addAll(bookList);
         sortedByFirstYearBookList.sort(Comparator.comparingInt(Book::getYear));
         sortedByFirstYearBookList.forEach(System.out::println);
     }
-//public List<List<bookStore.elements.Book>> makeThreeList(List<bookStore.elements.Book> bookList){
+
+    //public List<List<bookStore.elements.Book>> makeThreeList(List<bookStore.elements.Book> bookList){
 //        List<bookStore.elements.Book> temp = new ArrayList<>();
 //        temp = bookList.stream().map()
     public <T> void saveListToCSV(List<T> list, String fileName) throws IOException {
-        if(fileName==null){
+        if (fileName == null) {
             System.out.println("Nazwa pliku nie może być null'em");
             return;
         }
         File file = new File(fileName);
-        if(!((fileName.substring(fileName.length()-4).equals(".csv")||(fileName.substring(fileName.length()-4).equals(".txt")))))
-        {
-            fileName = fileName+".csv";
+        if (!((fileName.substring(fileName.length() - 4).equals(".csv") || (fileName.substring(fileName.length() - 4).equals(".txt"))))) {
+            fileName = fileName + ".csv";
         }
-//        if(!fileName.substring(fileName.length()-4).equals(".")){
-//           char[] temp= fileName.toCharArray();
-//           for (int)
-//            fileName=fileName+".csv";
-//        }
-        if(!file.isFile()) {
-            try{
+        if (!file.isFile()) {
+            try {
                 file.createNewFile();
-                System.out.println("Utworzono nowy plik o nazwie "+fileName);
-            }catch (IOException e){
+                System.out.println("Utworzono nowy plik o nazwie " + fileName);
+            } catch (IOException e) {
                 System.out.println("błąd w trakcie tworzenia pliku");
             }
         }
         int listSize = list.size();
-        try (Writer fileWriter = new FileWriter(fileName, false)){
-            for (int i = 0; i < listSize ; i++) {
+        try (Writer fileWriter = new FileWriter(fileName, false)) {
+            for (int i = 0; i < listSize; i++) {
                 fileWriter.write(String.valueOf(list.get(i)));
                 if (i != listSize - 1) {
                     fileWriter.write("\n");
@@ -231,10 +230,11 @@ public class BookFunctions {
             System.out.println("Nie znaleziono pliku");
         }
     }
-    public Category editCategoryName(List<Category> categoryList,int id){
-     Category category =  categoryList.stream()
-             .filter(category1 -> category1.getId()==id)
-             .findFirst().get();
+
+    public Category editCategoryName(List<Category> categoryList, int id) {
+        Category category = categoryList.stream()
+                .filter(category1 -> category1.getId() == id)
+                .findFirst().get();
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Wpisz nową nazwę kategorii");
@@ -244,32 +244,50 @@ public class BookFunctions {
 
 
     }
-    public void showByCategory(List<Book> bookList,String categoryName){
+
+    public void showByCategory(List<Book> bookList, String categoryName) {
         List<Book> selectedBooks = bookList.stream()
                 .filter(book -> book.getCategory().getName().equalsIgnoreCase(categoryName))
                 .collect(Collectors.toList());
-        if (selectedBooks.isEmpty()){
+        if (selectedBooks.isEmpty()) {
             System.out.println("Nie znaleziono książek podanej kategorii");
         } else selectedBooks.forEach(System.out::println);
 
     }
-    public void showByAuthor(List<Book> bookList,String authorLastName){
+
+    public void showByAuthor(List<Book> bookList, String authorLastName) {
         List<Book> selectedBooks = new ArrayList<>();
         Author author = new Author();
         author.setLastName(authorLastName);
         for (Book book : bookList) {
-            for (int i = 0; i < book.getAuthor().size() ; i++) {
+            for (int i = 0; i < book.getAuthor().size(); i++) {
                 if (book.getAuthor().get(i).getLastName().equalsIgnoreCase(author.getLastName()))
                     selectedBooks.add(book);
             }
         }
-        if (selectedBooks.isEmpty()){
+        if (selectedBooks.isEmpty()) {
             System.out.println("Nie znaleziono książek podanego autora");
         } else selectedBooks.forEach(System.out::println);
 
-
     }
-
+    public int firstFreeIdOfAuthorGenerator(List<Author> authors){
+        int firstFreeId=1;
+        for (int i = 0; i <authors.size() ; i++) {
+            if (authors.get(i).getId()==firstFreeId){
+                firstFreeId =firstFreeId+1;
+           }
+        }
+        return firstFreeId;
+    }
+    public int firstFreeIdOfCathegoryGenerator(List<Category> categories){
+        int firstFreeId=1;
+        for (int i = 0; i <categories.size() ; i++) {
+            if (categories.get(i).getId()==firstFreeId){
+                firstFreeId=firstFreeId+1;
+            }
+        }
+        return firstFreeId;
+    }
 
 
 

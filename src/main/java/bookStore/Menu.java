@@ -1,16 +1,12 @@
 package bookStore;
 
-import bookStore.addElements.AddAuthors;
 import bookStore.addElements.AddBooks;
-import bookStore.addElements.AddCategories;
 import bookStore.elements.Author;
-import bookStore.elements.Book;
 import bookStore.elements.Category;
 import bookStore.functions.BookFunctions;
 import bookStore.lists.Lists;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -72,14 +68,14 @@ public class Menu {
                     stop = scanner.nextLine();
                     break;
                 case 4:
-                    int id = lists.getAuthorList().size()+1;
+                    int id = bookFunctions.firstFreeIdOfAuthorGenerator(lists.getAuthorList());
                     author = new Author().manualAuthorCreator(id);
                     lists.getAuthorList().add(author);
                     System.out.println("Wciśnij enter aby kontynuować");
                     stop = scanner.nextLine();
                     break;
                 case 5:
-                    int id1 = lists.getCategoryList().size()+1;
+                    int id1 = bookFunctions.firstFreeIdOfCathegoryGenerator(lists.getCategoryList());
                     category = new Category().manualCategoryCreator(id1);
                     lists.getCategoryList().add(category);
                     System.out.println("Wciśnij enter aby kontynuować");
