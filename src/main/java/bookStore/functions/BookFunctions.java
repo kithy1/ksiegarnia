@@ -1,11 +1,14 @@
 package bookStore.functions;
 
 import bookStore.addElements.AddCategories;
+import bookStore.elements.Author;
 import bookStore.elements.Book;
 import bookStore.elements.Category;
+import bookStore.lists.Lists;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class BookFunctions {
@@ -228,7 +231,7 @@ public class BookFunctions {
             System.out.println("Nie znaleziono pliku");
         }
     }
-    public void editCategoryName(List<Category> categoryList,int id){
+    public Category editCategoryName(List<Category> categoryList,int id){
      Category category =  categoryList.stream()
              .filter(category1 -> category1.getId()==id)
              .findFirst().get();
@@ -237,15 +240,37 @@ public class BookFunctions {
         System.out.println("Wpisz nową nazwę kategorii");
         String newCategoryName = scanner.nextLine();
         category.setName(newCategoryName);
-        System.out.println(category.getName());
+        return category;
+
+
+    }
+    public void showByCategory(List<Book> bookList,String categoryName){
+        List<Book> selectedBooks = bookList.stream()
+                .filter(book -> book.getCategory().getName().equalsIgnoreCase(categoryName))
+                .collect(Collectors.toList());
+        if (selectedBooks.isEmpty()){
+            System.out.println("Nie znaleziono książek podanej kategorii");
+        } else selectedBooks.forEach(System.out::println);
+
+    }
+    public void showByAuthor(List<Book> bookList,String authorLastName){
+        List<Book> selectedBooks = new ArrayList<>();
+        Author author = new Author();
+        author.setLastName(authorLastName);
+        for (Book book : bookList) {
+            for (int i = 0; i < book.getAuthor().size() ; i++) {
+                if (book.getAuthor().get(i).getLastName().equalsIgnoreCase(author.getLastName()))
+                    selectedBooks.add(book);
+            }
+        }
+        if (selectedBooks.isEmpty()){
+            System.out.println("Nie znaleziono książek podanego autora");
+        } else selectedBooks.forEach(System.out::println);
+
 
     }
 
-    public static void main(String[] args) throws IOException {
-        BookFunctions bookFunctions = new BookFunctions();
-        AddCategories addCategories = new AddCategories();
-        bookFunctions.editCategoryName(addCategories.getNewListOfCategories(),1);
-    }
+
 
 
 }

@@ -3,49 +3,50 @@ package bookStore.addElements;
 import bookStore.elements.Author;
 import bookStore.elements.Book;
 import bookStore.elements.Category;
+import bookStore.lists.Lists;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
 public class AddBooks {
 
-    public List<Book> getNewListOfBooks() throws IOException {
+    public List<Book> getNewListOfBooks(String fileName) throws IOException {
         List<Book> bookList = new ArrayList<>();
-        List<Author> authors = new ArrayList<>();
+
         try {
 
 
-            Stream<String> lines = Files.lines(Paths.get("books.csv"));
+            Stream<String> lines = Files.lines(Paths.get(fileName));
             List<String> dataList = new ArrayList<>();
             lines.forEach(x -> dataList.add(x));
 
             for (String s : dataList) {
-                String[] split = s.split(";");
-
-                System.out.println();
-                int id = Integer.valueOf(split[0]);
-                String title = split[1];
-                String isbd = split[2];
-                int year = Integer.valueOf(split[3]);
-                char cover = split[4].charAt(0);
-                String[] authorsId = split[5].split(",");
-
-
+                List<Author> authors = new ArrayList<>();
+                String[] tablicaWartosci = s.split(";");
+                int id = Integer.valueOf(tablicaWartosci[0]);
+                String title = tablicaWartosci[1];
+                String isbd = tablicaWartosci[2];
+                int year = Integer.valueOf(tablicaWartosci[3]);
+                char cover = tablicaWartosci[4].charAt(0);
+                String[] authorsId = tablicaWartosci[5].split(",");
+                List<Author> authors1 = new AddAuthors().getNewListOfAutors("authors.csv");
                 for (int i = 0; i < authorsId.length; i++) {
-                    int finalI = i;
-                    authors.add(new AddAuthors().getNewListOfAutors("authors.csv").stream()
-                            .filter(author -> author.getId() == Integer.valueOf(authorsId[finalI]))
-                            .findFirst().get());
+                    int finalId = i;
+                    authors.add(authors1.stream()
+                            .filter(author -> author.getId() == Integer.valueOf(authorsId[finalId]))
+                            .findAny().get());
 
                 }
+
                 Category category;
-                int categoryId = Integer.valueOf(split[6]);
-                category = (new AddCategories().getNewListOfCategories().stream()
+                int categoryId = Integer.valueOf(tablicaWartosci[6]);
+                category = (new AddCategories().getNewListOfCategories("categories.csv").stream()
                         .filter(c -> c.getId() == categoryId)
                         .findFirst().get());
 

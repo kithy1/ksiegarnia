@@ -47,6 +47,12 @@ public class Book {
     public void setYear(int year) {
         this.year = year;
     }
+    public Category getCategory(){
+        return category;
+    }
+    public List<Author> getAuthor(){
+        return author;
+    }
 
     @Override
     public String toString() {
