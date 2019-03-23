@@ -1,9 +1,9 @@
 package bookStore;
 
-import bookStore.addElements.AddBooks;
 import bookStore.elements.Author;
 import bookStore.elements.Category;
 import bookStore.functions.BookFunctions;
+import bookStore.functions.BookSorter;
 import bookStore.lists.Lists;
 
 import java.io.IOException;
@@ -27,12 +27,14 @@ public class Menu {
         System.out.println("11. Edytowanie nazwy kategorii");
         System.out.println("12. Wyświetl książki według nazwy kategorii");
         System.out.println("13. Wyświetl książki według nazwiska autora");
-        System.out.println("14. Zakończ");
+        System.out.println("14. Wyświetl wg. tytuł, rok, isbn");
+        System.out.println("15. Wyświetl wg. isbn, tytuł, rok");
+        System.out.println("16. Wyświetl wg. rok, tytuł, isbn");
+        System.out.println("20. Zakończ");
         System.out.println("...................");
     }
 
     public void menu() throws IOException {
-        AddBooks addBooks = new AddBooks();
         Lists lists = Lists.getInstance();
         Author author;
         BookFunctions bookFunctions = new BookFunctions();
@@ -53,7 +55,7 @@ public class Menu {
 
             switch (choice) {
                 case 1:
-                    lists.getBookList().forEach(System.out::println);
+                    lists.showListOfBook();
                     System.out.println("Wciśnij enter aby kontynuować");
                     stop = scanner.nextLine();
                     break;
@@ -82,12 +84,12 @@ public class Menu {
                     stop = scanner.nextLine();
                     break;
                 case 6:
-                    bookFunctions.saveListToCSV(lists.getAuthorList(),"authors.csv");
+                    bookFunctions.saveListToCSV(lists.getAuthorList(), "authors.csv");
                     System.out.println("Wciśnij enter aby kontynuować");
                     stop = scanner.nextLine();
                     break;
                 case 7:
-                    bookFunctions.saveListToCSV(lists.getCategoryList(),"categories.csv");
+                    bookFunctions.saveListToCSV(lists.getCategoryList(), "categories.csv");
                     System.out.println("Wciśnij enter aby kontynuować");
                     stop = scanner.nextLine();
                     break;
@@ -111,10 +113,10 @@ public class Menu {
                     int id2;
                     try {
                         id2 = Integer.valueOf(scanner.nextLine());
-                        category = bookFunctions.editCategoryName(lists.getCategoryList(),id2);
-                        lists.getCategoryList().remove(id2-1);
-                        lists.getCategoryList().add(id2-1,category);
-                    }catch (NumberFormatException e){
+                        category = bookFunctions.editCategoryName(lists.getCategoryList(), id2);
+                        lists.getCategoryList().remove(id2 - 1);
+                        lists.getCategoryList().add(id2 - 1, category);
+                    } catch (NumberFormatException e) {
                         System.out.println("Wpisz id kategori w formacie liczbowym");
                     }
                     System.out.println("Wciśnij enter aby kontynuować");
@@ -122,24 +124,33 @@ public class Menu {
                     break;
                 case 12:
                     String categoryName = scanner.nextLine();
-                    bookFunctions.showByCategory(lists.getBookList(),categoryName);
+                    bookFunctions.showByCategory(lists.getBookList(), categoryName);
                     System.out.println("Wciśnij enter aby kontynuować");
                     stop = scanner.nextLine();
                     break;
                 case 13:
                     String authorLastName = scanner.nextLine();
-                    bookFunctions.showByAuthor(lists.getBookList(),authorLastName);
+                    bookFunctions.showByAuthor(lists.getBookList(), authorLastName);
                     System.out.println("Wciśnij enter aby kontynuować");
                     stop = scanner.nextLine();
                     break;
                 case 14:
+                    lists.setFormat(2);
+                    break;
+                case 15:
+                    lists.setFormat(3);
+                    break;
+                case 16:
+                    lists.setFormat(1);
+                    break;
+                case 20:
                     break;
                 default:
                     System.out.println("wpisano niewłaściwy znak");
                     showMenu();
 
             }
-        } while (choice != 14);
+        } while (choice != 20);
 
 
     }

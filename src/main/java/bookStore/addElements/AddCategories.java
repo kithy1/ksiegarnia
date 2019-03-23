@@ -13,11 +13,9 @@ import java.util.stream.Stream;
 public class AddCategories {
     public List<Category> getNewListOfCategories(String fileName) throws IOException {
         List<Category> categoriesList = new ArrayList<>();
-        try {
-            Stream<String> lines = Files.lines(Paths.get(fileName));
+        try (Stream<String> lines = Files.lines(Paths.get(fileName))){
             List<String> dataList = new ArrayList<>();
             lines.forEach(x -> dataList.add(x));
-
             for (String s : dataList) {
                 String[] split = s.split(";");
                 int id = Integer.valueOf(split[0]);

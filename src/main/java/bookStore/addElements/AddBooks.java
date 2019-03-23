@@ -19,10 +19,7 @@ public class AddBooks {
     public List<Book> getNewListOfBooks(String fileName) throws IOException {
         List<Book> bookList = new ArrayList<>();
 
-        try {
-
-
-            Stream<String> lines = Files.lines(Paths.get(fileName));
+        try(Stream<String> lines = Files.lines(Paths.get(fileName))) {
             List<String> dataList = new ArrayList<>();
             lines.forEach(x -> dataList.add(x));
 
@@ -35,7 +32,11 @@ public class AddBooks {
                 int year = Integer.valueOf(tablicaWartosci[3]);
                 char cover = tablicaWartosci[4].charAt(0);
                 String[] authorsId = tablicaWartosci[5].split(",");
-                List<Author> authors1 = new AddAuthors().getNewListOfAutors("authors.csv");
+                Lists lists = Lists.getInstance();
+                List<Author> authors1 = lists.getAuthorList();
+                if (authors1.isEmpty()){
+                    authors = null;
+                }
                 for (int i = 0; i < authorsId.length; i++) {
                     int finalId = i;
                     authors.add(authors1.stream()
@@ -46,12 +47,17 @@ public class AddBooks {
 
                 Category category;
                 int categoryId = Integer.valueOf(tablicaWartosci[6]);
-                category = (new AddCategories().getNewListOfCategories("categories.csv").stream()
-                        .filter(c -> c.getId() == categoryId)
-                        .findFirst().get());
 
+                if (lists.getCategoryList().isEmpty()){
+                    System.out.println("Lista kategorii jest pusta\n");
+                    category = null;
+                } else {
+                    category = (lists.getCategoryList()
+                            .stream()
+                            .filter(c -> c.getId() == categoryId)
+                            .findFirst().get());
+                }
                 bookList.add(new Book(id, title, isbd, year, cover, authors, category));
-
 
             }
         }catch (FileNotFoundException e){
