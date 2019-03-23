@@ -15,22 +15,23 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws IOException {
+        SourceFileName sourceFileName = new SourceFileName();
 
         try {
             AddCategories addCategories = new AddCategories();
-            List<Category> newListOfCategories = addCategories.getNewListOfCategories("categories.csv");
+            List<Category> newListOfCategories = addCategories.getNewListOfCategories(sourceFileName.getCategorySourceFileName());
 
             Lists lists = Lists.getInstance();
             lists.setCategoryList(newListOfCategories);
 
             AddAuthors addAuthors = new AddAuthors();
-            List<Author> newListOfAuthors = addAuthors.getNewListOfAutors("authors.csv");
+            List<Author> newListOfAuthors = addAuthors.getNewListOfAutors(sourceFileName.getAuthorSourceFileName());
 
             lists.setAuthorList(newListOfAuthors);
 
 
             AddBooks addBooks = new AddBooks();
-            List<Book> newListOfBooks = addBooks.getNewListOfBooks("books.csv");
+            List<Book> newListOfBooks = addBooks.getNewListOfBooks(sourceFileName.getBookSoureceFileName());
 
             lists.setBookList(newListOfBooks);
         } catch (Exception e) {

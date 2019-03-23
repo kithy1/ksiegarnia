@@ -1,9 +1,9 @@
 package bookStore;
 
+import bookStore.addElements.SourceFileName;
 import bookStore.elements.Author;
 import bookStore.elements.Category;
 import bookStore.functions.BookFunctions;
-import bookStore.functions.BookSorter;
 import bookStore.lists.Lists;
 
 import java.io.IOException;
@@ -35,6 +35,7 @@ public class Menu {
     }
 
     public void menu() throws IOException {
+        SourceFileName sourceFileName = new SourceFileName();
         Lists lists = Lists.getInstance();
         Author author;
         BookFunctions bookFunctions = new BookFunctions();
@@ -84,12 +85,12 @@ public class Menu {
                     stop = scanner.nextLine();
                     break;
                 case 6:
-                    bookFunctions.saveListToCSV(lists.getAuthorList(), "authors.csv");
+                    bookFunctions.saveListToCSV(lists.getAuthorList(), sourceFileName.getAuthorSourceFileName());
                     System.out.println("Wciśnij enter aby kontynuować");
                     stop = scanner.nextLine();
                     break;
                 case 7:
-                    bookFunctions.saveListToCSV(lists.getCategoryList(), "categories.csv");
+                    bookFunctions.saveListToCSV(lists.getCategoryList(), sourceFileName.getCategorySourceFileName());
                     System.out.println("Wciśnij enter aby kontynuować");
                     stop = scanner.nextLine();
                     break;
